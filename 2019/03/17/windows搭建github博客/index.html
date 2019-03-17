@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta name="keywords" content="hexo, autumn">
+    <title>
+        
+    </title>
+    <!-- favicon -->
+    
+    <link rel="icon" href="/img/smile.ico">
+    
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- highlight -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/github-gist.min.css">
+    <script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
+    <script>
+        hljs.initHighlightingOnLoad()
+    </script>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/frontendsophie/hexo-infinite-scroll@1.0.0/dist/hexo-infinite-scroll.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/frontendsophie/hexo-infinite-scroll@1.0.0/dist/hexo-infinite-scroll.min.js"></script>
+    <script>
+        infiniteScroll()
+
+        // for mobile menu
+        $(function () {
+            $('.social-button').click(function () {
+                if ($('.social-links').hasClass('hide-links')) {
+                    $('.social-links').removeClass('hide-links')
+                } else {
+                    $('.social-links').addClass('hide-links')
+                }
+            })
+        })
+    </script>
+</head>
+
+    <body style="background: url(https://cdn.jsdelivr.net/gh/frontendsophie/hexo-theme-autumn@1.0.0/source/img/button-bg.png) #f3f3f3">
+        <div class="container">
+            <header class="header">
+    <h1 class="title">
+        <a href="/" class="logo">
+            
+        </a>
+    </h1>
+    <h2 class="desc">
+        
+    </h2>
+
+    <nav class="links">
+        <button class="social-button">
+            menu
+        </button>
+        <ul class="social-links hide-links">
+            
+                <li>
+                    <a href="https://github.com/realeather">
+                        Github
+                    </a>
+                </li>
+                
+        </ul>
+    </nav>
+</header>
+                <main class="main">
+                    <article class="post">
+    
+            <h2 class="post-title">
+                windows搭建github博客
+            </h2>
+            <ul class="post-date">
+                <li>
+                    2019-03-17
+                </li>
+                <li>
+                    
+                </li>
+            </ul>
+            <div class="post-content">
+                <ul>
+<li><a href="#1">1. 安装工具<br> Node.js, Visual Studio Code, github桌面版, git for windows</a></li>
+<li><a href="#2">2. 安装hexo 配置本地文件</a></li>
+<li><a href="#3">3. 更换hexo主题</a></li>
+<li><a href="#4">4. 同步本地文件至 github.io</a></li>
+</ul>
+<p></p><h2 style="display:inline;" id="1">1. 安装工具</h2><br>下载安装Node.js <a href="https://nodejs.org/en/" target="_blank" rel="noopener">https://nodejs.org/en/</a><br><img src="/image/windows搭建github博客/download-nodejs.png" alt="download-nodejs"><br>下载安装Visual Studio Code <a href="https://code.visualstudio.com/" target="_blank" rel="noopener">https://code.visualstudio.com/</a><br><img src="/image/windows搭建github博客/download-vscode.png" alt="download-vscode"><br>下载安装github桌面版 <a href="https://desktop.github.com/" target="_blank" rel="noopener">https://desktop.github.com/</a><br><img src="/image/windows搭建github博客/download-githubdesktop.png" alt="download-githubdesktop"><br>下载安装git for windows <a href="https://gitforwindows.org/" target="_blank" rel="noopener">https://gitforwindows.org/</a><br><img src="/image/windows搭建github博客/download-gitforwindows.png" alt="download-gitforwindows"><p></p>
+<p></p><h2 style="display:inline;" id="2">2. 安装hexo 配置本地文件</h2><br>Hexo 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。官网有教程和文档  <a href="https://hexo.io/zh-cn/" target="_blank" rel="noopener">https://hexo.io/zh-cn/</a><p></p>
+<p>先安装Node.js, 然后cmd执行命令安装hexo<br><code>npm install -g hexo-cli</code><br><img src="/image/windows搭建github博客/install-hexo.png" alt="install-hexo"><br>新建文件夹blog(名字随意)存储hexo项目, 在blog目录下打开cmd命令窗口<br><code>hexo init</code> 初始化hexo静态页面文件<br><img src="/image/windows搭建github博客/hexo-init.png" alt="hexo-init"><br>用visual studio code打开blog文件夹,修改配置文件_config.yml<br><img src="/image/windows搭建github博客/blog_config.png" alt="blog_config"><br>$ hexo new [layout]  title<br>新建一篇文章。如果没有设置 layout 的话，默认使用 _config.yml 中的 default_layout 参数代替。如果标题包含空格的话，请使用引号括起来。例如<code>hexo new &quot;My First Post&quot;</code><br><img src="/image/windows搭建github博客/hexo-new.png" alt="hexo-new"><br>$ hexo clean<br>清除缓存文件 (db.json) 和已生成的静态文件 (public)。<br>在某些情况（尤其是更换主题后），如果发现您对站点的更改无论如何也不生效，您可能需要运行该命令。<br>$ hexo generate<br>生成静态文件。<br><img src="/image/windows搭建github博客/hexo-generate.png" alt="hexo-generate"><br>$ hexo server<br>安装完成后，输入hexo server以启动服务器，您的网站会在 <a href="http://localhost:4000" target="_blank" rel="noopener">http://localhost:4000</a> 下启动。在服务器启动期间，Hexo 会监视文件变动并自动更新，您无须重启服务器<br><img src="/image/windows搭建github博客/hexo-server.png" alt="hexo-server"><br>浏览器访问<a href="http://localhost:4000" target="_blank" rel="noopener">http://localhost:4000</a><br><img src="/image/windows搭建github博客/localhost4000.png" alt="localhost4000"></p>
+<p></p><h2 style="display:inline;" id="3">3. 更换hexo主题</h2><br>官网寻找主题<a href="https://hexo.io/themes/" target="_blank" rel="noopener">https://hexo.io/themes/</a><br>复制主题下载路径<br><img src="/image/windows搭建github博客/copy-theme.png" alt="copy-theme"><br>blog/themes路径下打开cmd 执行命令下载主题(安装git for windows才能用git命令)<br><code>git clone 主题下载路径</code><br><img src="F:/image/windows搭建github博客/git-clone.png" alt="git-clone"><p></p>
+<p>编辑_confi.yml, theme值改成想使用的主题名<br><img src="/image/windows搭建github博客/config-theme.png" alt="config-theme"><br><code>hexo clean</code> 清除public网站文件<br><code>hexo generate</code> 生成public网站文件<br><code>hexo server</code> 开启本地服务</p>
+<p></p><h2 style="display:inline;" id="4">4. 同步本地文件至 github.io</h2><br>注册登录github, 右上角New repository新建一个资料库<br><img src="/image/windows搭建github博客/github-reg.png" alt="github-reg"><p></p>
+<p><img src="/image/windows搭建github博客/new-repository.png" alt="new-repository"><br>运行github desktop并登录<br>选择clone a repository(克隆资料库)<br><img src="/image/windows搭建github博客/github-clonearepository.png" alt="github-clonearepository"><br>选择存储库，设置本地路径，点击clone<br><img src="F/image/windows搭建github博客/github-localpath.png" alt=""><br>把hexo public目录下的文件复制到github项目路径下<br><img src="/image/windows搭建github博客/copy-public.png" alt="copy-public"><br>打开github desktop输入描述后点击Commit to master提交修改<br><img src="/image/windows搭建github博客/github-commit.png" alt="github-commit"></p>
+
+            </div>
+</article>
+
+                </main>
+                <aside class="aside">
+                    <section class="aside-section">
+                        
+    <h1>Categories</h1>
+
+    
+
+                    </section>
+                    <section class="aside-section">
+                        
+    <h1>Archives</h1>
+
+    <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019</a></li></ul>
+
+
+                    </section>
+                    <section class="aside-section tag">
+                        
+    <h1>Tags</h1>
+
+    
+
+                    </section>
+                </aside>
+        </div>
+    </body>
+
+</html>
