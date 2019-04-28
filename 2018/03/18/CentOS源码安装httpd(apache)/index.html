@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta name="keywords" content="hexo, autumn">
+    <title>
+        
+    </title>
+    <!-- favicon -->
+    
+    <link rel="icon" href="/img/smile.ico">
+    
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- highlight -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/github-gist.min.css">
+    <script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
+    <script>
+        hljs.initHighlightingOnLoad()
+    </script>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/frontendsophie/hexo-infinite-scroll@1.0.0/dist/hexo-infinite-scroll.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/frontendsophie/hexo-infinite-scroll@1.0.0/dist/hexo-infinite-scroll.min.js"></script>
+    <script>
+        infiniteScroll()
+
+        // for mobile menu
+        $(function () {
+            $('.social-button').click(function () {
+                if ($('.social-links').hasClass('hide-links')) {
+                    $('.social-links').removeClass('hide-links')
+                } else {
+                    $('.social-links').addClass('hide-links')
+                }
+            })
+        })
+    </script>
+</head>
+
+    <body style="background: url(https://cdn.jsdelivr.net/gh/frontendsophie/hexo-theme-autumn@1.0.0/source/img/button-bg.png) #f3f3f3">
+        <div class="container">
+            <header class="header">
+    <h1 class="title">
+        <a href="/" class="logo">
+            
+        </a>
+    </h1>
+    <h2 class="desc">
+        
+    </h2>
+
+    <nav class="links">
+        <button class="social-button">
+            menu
+        </button>
+        <ul class="social-links hide-links">
+            
+                <li>
+                    <a href="https://github.com/realeather">
+                        Github
+                    </a>
+                </li>
+                
+        </ul>
+    </nav>
+</header>
+                <main class="main">
+                    <article class="post">
+    
+            <h2 class="post-title">
+                CentOS源码安装httpd
+            </h2>
+            <ul class="post-date">
+                <li>
+                    2018-03-18
+                </li>
+                <li>
+                    
+                </li>
+            </ul>
+            <div class="post-content">
+                <ul>
+<li><a href="#1">1. 配置安装环境</a><blockquote>
+<ul>
+<li><a href="#1.1">1.1 准备虚拟机系统CentOS7.5,vmware网络模式设置成桥接模式</a></li>
+<li><a href="#1.2">1.2 设置开机网卡自动启动</a></li>
+<li><a href="#1.3">1.3  连接网络</a></li>
+<li><a href="#1.4">1.4 主机安装ssh客户端Termius和CyberDuck</a></li>
+<li><a href="#1.5">1.5 安装开发者工具包</a></li>
+</ul>
+</blockquote>
+</li>
+<li><a href="#2">2. 安装httpd</a><blockquote>
+<ul>
+<li><a href="#2.1">2.1 准备httpd安装包</a></li>
+<li><p><a href="#2.2">2.2 安装apr和pcre</a> </p>
+<blockquote>
+<ul>
+<li><a href="#2.21">2.21 源码安装apr,apr-util,pcre</a></li>
+<li><a href="#2.22">2.22 yum安装apr和pcre</a></li>
+</ul>
+</blockquote>
+</li>
+<li><p><a href="#2.3">2.3 源码安装httpd</a></p>
+</li>
+</ul>
+</blockquote>
+</li>
+<li><a href="#3">3. 主机访问网站</a> </li>
+</ul>
+<p></p><h2 style="display:inline;" id="1">1. 配置安装环境</h2><p></p>
+<p></p><h3 style="display:inline;" id="1.1"> 1.1 准备虚拟机系统CentOS7.5,vmware网络模式设置成桥接模式</h3><br><img src="/image/CentOS源码安装httpd/bridge-pattern.jpg" alt="bridge-pattern"><p></p>
+<p></p><h3 style="display:inline;" id="1.2">1.2 设置开机网卡自动启动</h3><br><code>vi /etc/sysconfig/network-scripts/ifcfg-ens33</code><br><code>ONBOOT=no</code>改成<code>ONBOOT=yes</code> <code>wq</code>保存退出<br><img src="/image/CentOS源码安装httpd/ifcfg-ens33.jpg" alt="ifcfg-ens33"><p></p>
+<p></p><h3 style="display:inline;" id="1.3">1.3 连接网络</h3><br><code>network service restart</code> 重启网络服务<br><code>ip add</code> 查询虚拟机ip为192.168.11.143<br><code>ping www.baidu.com</code> 测试网络连接<br><img src="/image/CentOS源码安装httpd/service-network-restart.jpg" alt="service-network-restart"><p></p>
+<p></p><h3 style="display:inline;" id="1.4">1.4 主机安装ssh客户端Termius和CyberDuck</h3><br><code>systemctl status sshd</code> 查看ssh服务状态<br><img src="/image/CentOS源码安装httpd/systemctl-status-sshd.jpg" alt="systemctl-status-sshd"><br>主机安装ssh客户端Termius,用于连接虚拟机命令行<br>选择”New Host”,输入标签,虚拟机ip地址,账户,密码<br><img src="/image/CentOS源码安装httpd/termius.jpg" alt="termius"><br>主机安装ssh客户端CyberDuck,用于管理传输虚拟机文件<br>选择”新建连接”,输入虚拟机ip地址,账户,密码<br><img src="/image/CentOS源码安装httpd/cyberduck.jpg" alt="cyberduck"><p></p>
+<p></p><h3 style="display:inline;" id="1.5">1.5 安装开发者工具包</h3><br><code>yum groupinstall &#39;development tools&quot; -y</code><br><img src="/image/CentOS源码安装httpd/development-tools.jpg" alt="development-tools"><p></p>
+<p></p><h2 style="display:inline;" id="2"> 2. 安装httpd</h2><p></p>
+<p></p><h3 style="display:inline;" id="2.1">2.1 准备httpd安装包</h3><br>apche官网下载安装包httpd-2.4.37.tar.gz<a href="http://httpd.apache.org/download.cgi#apache24" target="_blank" rel="noopener">http://httpd.apache.org/download.cgi#apache24</a><br><img src="/image/CentOS源码安装httpd/download_httpd.jpg" alt="download_httpd"><br>用CyberDuck把httpd-2.4.37.tar.gz从主机传输到虚拟机/root目录下<br><img src="/image/CentOS源码安装httpd/cyberduck_httpd.jpg" alt="cyberduck_httpd"><br><code>tar -zxf httpd-2.4.37.tar.gz</code> 解压httpd-2.4.37.tar.gz<br><img src="/image/CentOS源码安装httpd/extract_httpd.jpg" alt="extract_httpd"><p></p>
+<p></p><h3 style="display:inline;" id="2.2">2.2 安装apr和pcre</h3><br>./configure命令执行/root/httpd-2.4.37 目录下的configure文件<br>提示缺少apr,apr-util,pcre依赖包,接下来介绍源码/yum安装依赖包的步骤<br><img src="/image/CentOS源码安装httpd/configure.jpg" alt="configure"><p></p>
+<p></p><h4 style="display:inline;" id="2.21">2.21 源码安装apr,apr-util,pcre</h4><br>下载apr和apr-util: <a href="http://apr.apache.org/download.cgi" target="_blank" rel="noopener">http://apr.apache.org/download.cgi</a><br>下载pcre: <a href="https://sourceforge.net/projects/pcre/files/pcre/" target="_blank" rel="noopener">https://sourceforge.net/projects/pcre/files/pcre/</a><br><img src="/image/CentOS源码安装httpd/download_apr.jpg" alt="download_apr"><br>用CyberDuck把压缩包传到虚拟机并解压<br><img src="/image/CentOS源码安装httpd/extract_apr.jpg" alt="extract_apr"><p></p>
+<hr>
+<h4 id="源码安装apr"><a href="#源码安装apr" class="headerlink" title="源码安装apr:"></a>源码安装apr:</h4><p>转到安装包目录1<br><code>cd apr-1.6.5</code><br>指定安装路径<br><code>./configure --prefix=/usr/local/apr</code><br> 编译<br><code>make</code><br>安装到指定路径<br><code>make install</code> </p>
+<hr>
+<h4 id="源码安装apr-util"><a href="#源码安装apr-util" class="headerlink" title="源码安装apr-util:"></a>源码安装apr-util:</h4><p>指定安装路径,注意加上–with-apr<br><code>cd apr-util-1.6.1</code><br><code>./configure --prefix=/usr/local/apr-util  --with-apr=/usr/local/apr/bin/apr-1-config</code><br><img src="/image/CentOS源码安装httpd/configure-apr-util.jpg" alt="configure-apr-util"><br>执行make提示expat.h:没有此文件或目录,yum安装expat-devel<br><code>yum install expat-devel</code><br><code>make</code><br><img src="/image/CentOS源码安装httpd/yum-expat-devel.jpg" alt="yum-expat-devel"><br>执行make install提示执行libtool命令<br><code>libtool --finish /usr/local/apr-util/lib</code><br><code>make install</code><br><img src="/image/CentOS源码安装httpd/libtool.jpg" alt="libtool"></p>
+<hr>
+<h4 id="源码安装pcre"><a href="#源码安装pcre" class="headerlink" title="源码安装pcre:"></a>源码安装pcre:</h4><p><code>./configure --prefix=/usr/local/pcre</code><br><code>make</code><br><code>make install</code>                    </p>
+<hr>
+<p></p><h4 style="display:inline" id="2.22">2.22 yum安装apr和pcre<h4><p></p>
+<h5 id="yum安装apr"><a href="#yum安装apr" class="headerlink" title="yum安装apr:"></a>yum安装apr:</h5><p><code>yum search apr</code> 查看需要安装的pcre依赖<br><code>yum install  apr apr-devel apr-util apr-util-devel</code> 安装apr<br><img src="/image/CentOS源码安装httpd/yum-apr.jpg" alt="yum-apr"></p>
+<h5 id="yum安装pcre"><a href="#yum安装pcre" class="headerlink" title="yum安装pcre:"></a>yum安装pcre:</h5><p><code>yum search pcre</code> 查看需要安装的pcre依赖<br><code>yum install pcre pcre-devel pcre-tools</code> 安装pcre</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><img src="/image/CentOS源码安装httpd/yum-pcre.jpg" alt="yum-pcre"></h2><p></p><h3 style="display:inline" id="2.3">2.3 源码安装httpd</h3><br>configure提示”error: pcre-config for libpcre not found. PCRE is required and available “,命令加上–with-pcre=/usr/local/pcre<br><code>./configure --prefix=/usr/local/httpd --with-pcre=/usr/local/pcre</code><br><code>make</code><br><code>make install</code><br>启动apache服务,提示错误不用管<br><code>/usr/local/httpd/bin/apachectl start</code><br>关闭防火墙<br><code>systemctl stop firewalld</code><br><img src="/image/CentOS源码安装httpd/ctl.jpg" alt="ctl"><p></p>
+<p></p><h2 style="display:inline" id="3">3. 主机访问网站</h2><br>浏览器地址栏输入虚拟机ip 192.168.11.143,显示”It works!”页面,说明apache服务成功启动<br><img src="/image/CentOS源码安装httpd/itworks.jpg" alt="itworks"><br>把本机hexo的public目录下文件传到虚拟机/usr/local/httpd/htdocs目录下<br><img src="/image/CentOS源码安装httpd/htdocs.jpg" alt="htdocs"><br>再次访问192.168.11.143,显示博客页面,搭建成功<br><img src="/image/CentOS源码安装httpd/blog.jpg" alt="blog"><p></p>
+</h4></h4>
+            </div>
+</article>
+
+                </main>
+                <aside class="aside">
+                    <section class="aside-section">
+                        
+    <h1>Categories</h1>
+
+    
+
+                    </section>
+                    <section class="aside-section">
+                        
+    <h1>Archives</h1>
+
+    <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018</a></li></ul>
+
+
+                    </section>
+                    <section class="aside-section tag">
+                        
+    <h1>Tags</h1>
+
+    
+
+                    </section>
+                </aside>
+        </div>
+    </body>
+
+</html>

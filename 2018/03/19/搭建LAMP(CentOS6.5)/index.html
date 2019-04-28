@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta name="keywords" content="hexo, autumn">
+    <title>
+        
+    </title>
+    <!-- favicon -->
+    
+    <link rel="icon" href="/img/smile.ico">
+    
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- highlight -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/github-gist.min.css">
+    <script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
+    <script>
+        hljs.initHighlightingOnLoad()
+    </script>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/frontendsophie/hexo-infinite-scroll@1.0.0/dist/hexo-infinite-scroll.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/frontendsophie/hexo-infinite-scroll@1.0.0/dist/hexo-infinite-scroll.min.js"></script>
+    <script>
+        infiniteScroll()
+
+        // for mobile menu
+        $(function () {
+            $('.social-button').click(function () {
+                if ($('.social-links').hasClass('hide-links')) {
+                    $('.social-links').removeClass('hide-links')
+                } else {
+                    $('.social-links').addClass('hide-links')
+                }
+            })
+        })
+    </script>
+</head>
+
+    <body style="background: url(https://cdn.jsdelivr.net/gh/frontendsophie/hexo-theme-autumn@1.0.0/source/img/button-bg.png) #f3f3f3">
+        <div class="container">
+            <header class="header">
+    <h1 class="title">
+        <a href="/" class="logo">
+            
+        </a>
+    </h1>
+    <h2 class="desc">
+        
+    </h2>
+
+    <nav class="links">
+        <button class="social-button">
+            menu
+        </button>
+        <ul class="social-links hide-links">
+            
+                <li>
+                    <a href="https://github.com/realeather">
+                        Github
+                    </a>
+                </li>
+                
+        </ul>
+    </nav>
+</header>
+                <main class="main">
+                    <article class="post">
+    
+            <h2 class="post-title">
+                搭建LAMP
+            </h2>
+            <ul class="post-date">
+                <li>
+                    2018-03-19
+                </li>
+                <li>
+                    
+                </li>
+            </ul>
+            <div class="post-content">
+                <ul>
+<li><a href="#1">1. 配置网卡</a></li>
+<li><a href="#2">2. 安装Apache</a></li>
+<li><a href="#3">3. 安装Mysql</a></li>
+<li><a href="#4">4. 安装PHP</a></li>
+<li><a href="#5">5. 搭建网站</a></li>
+</ul>
+<p>LAMP: Linux+Apache+//MariaDB+Perl/PHP/Python<br>一组常用来搭建动态网站或者服务器的开源软件,本文使用CentOS+Apache+/+PHP组合搭建<br>rpm -q centos-release<code>或</code>cat /etc/redhat-release`查看CentOS版本为6.5<br><img src="/image/搭建LAMP/release.png" alt=""></p>
+<p></p><h2 style="display:inline" id="1">1. 配置网卡</h2><br>由于虚拟机从ova文件导入,存在找不到网卡的问题<br>查看网卡信息 <code>cat /etc/udev/rules.d/70-persistent-net.rules</code><br>eth1的mac地址 <code>00:0c:29:f2:88:60</code><br><img src="/image/搭建LAMP/cat-netrules.jpg" alt=""><br>修改网卡配置文件<code>ifcfg-eth0</code><br><code>vi /etc/sysconfig/network-scripts/ifcfg-eth0</code><br>DEVICE改成<code>eth1</code>,HWADDR改成<code>00:0c:29:F2:88:60</code>,wq保存退出<br><img src="/image/搭建LAMP/ifcfg-eth0.jpg" alt=""><br>重启网卡 <code>service network restart</code><br><code>ifconfig</code>查看网络设备状态<br><img src="/image/搭建LAMP/ifconfig.png" alt=""><p></p>
+<p></p><h2 style="display:inline" id="2">2. 安装Apache</h2><br>linux服务相关命令:<br><code>service httpd start</code> #启动httpd服务<br><code>service httpd stop</code> #停止httpd服务<br><code>service httpd status</code> #查看httpd的运行状态<br><code>service httpd restart</code> #重启httpd服务<br><code>chkconfig httpd on</code>  #httpd开机启动<br><code>chkconfig httpd off</code> #关闭httpd开机启动<br>yum安装httpd<br><code>yum install httpd httpd-devel httpd-manual mod_ssl mod_perl mod_auth_mysql</code><br><img src="/image/搭建LAMP/yum-install-httpd.png" alt=""><br>执行命令<code>httpd</code>报错:httpd: apr_sockaddr_info_get() failed for [主机名]<br><code>httpd: Could not reliably determine the server&#39;s fully qualified domain name, using 127.0.0.1 for ServerName</code><img src="/image/搭建LAMP/error-servername.png" alt=""><br>原因是没有在 /etc/httpd/conf/httpd.conf 中设定 ServerName,会用目前的主机名替代(用<code>host</code>命令查看)<br>停止httpd服务<br><code>sercvice httpd stop</code><br>修改Apache主配置文件httpd.conf<br><code>vi /etc/httpd/conf/httpd.conf</code><br>去掉<code>ServerName</code>前的<code>#</code>号<br><img src="/image/搭建LAMP/servername.png" alt=""><br>修改信息包过滤防火墙规则<br><code>vi /etc/sysconfig/iptables</code><br>在<code>-A INPUT -j REJECT --reject-with icmp-host-prohibited</code>前入规则开启80端口(这条表示拒绝所有数据包访问,防火墙规则顺序执行,规则加在前面才能生效)<br><code>-A INPUT -p tcp -m tcp --dport 80 -j ACCEPT</code><br>//<code>-A</code>追加规则 <code>-INPUT</code>别人请求你 <code>-p</code>指定协议类型 <code>-m</code>启用扩展功能 <code>--dport</code>指定端口 <code>-j</code>指定这条规则如何进行处理 <code>ACCEPT</code>表示通过<br>重启防火墙<br><code>service iptables restart</code><br>主机访问192.168.152.132显示Apache 2 Test Page<br><img src="/image/搭建LAMP/apache2-testpage.png" alt=""><br>开机自启httpd<br><code>chkconfig httpd on</code><p></p>
+<p></p><h2 style="display:inline" id="3">3. 安装Mysql</h2><br>yum安装mysql<br><code>yum install mysql mysql-server mysql-devel</code><br><img src="/image/搭建LAMP/yum-install-mysql.png" alt=""><br>启动mysql服务<br><code>service mysqld start</code><br>初始化<br><code>mysql_secure_installation</code><br><img src="/image/搭建LAMP/set-root-password.png" alt=""><br>开机自启mysql<br><code>chkconfig mysqld on</code><p></p>
+<p></p><h2 style="display:inline" id="4">4. 安装PHP</h2><br>yum安装PHP<br><code>yum install php php-/ php-common php-gd php-mbstring php-mcrypt php-devel php-xml -y</code><br>PHP是Apache的扩展,安装完成后重启Apache服务<br><code>service httpd restart</code><p></p>
+<p></p><h2 style="display:inline" id="5">5. 搭建网站</h2><br>VAuditDemo是一个简单的Web漏洞演练平台<br>用cyberduck将VAuditDemo文件放到/var/www/html目录<br><img src="/image/搭建LAMP/ssh.png" alt=""><br>改宿主权限为apache用户<br><code>chown -R apache:apache /var/www/html</code><br>编辑网站配置文件<br><code>vi /var/www/html/sys/config.php</code><br>修改$password<br><img src="/image/搭建LAMP/config-php.png" alt=""><br>浏览器访问虚拟机提示Unknown database ‘vauditdemo’<br>登录/创建vauditdemo数据库<br><img src="/image/搭建LAMP/vauditdemo.png" alt=""><br>访问成功<br><img src="/image/搭建LAMP/Virink.png" alt=""><p></p>
+
+            </div>
+</article>
+
+                </main>
+                <aside class="aside">
+                    <section class="aside-section">
+                        
+    <h1>Categories</h1>
+
+    
+
+                    </section>
+                    <section class="aside-section">
+                        
+    <h1>Archives</h1>
+
+    <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018</a></li></ul>
+
+
+                    </section>
+                    <section class="aside-section tag">
+                        
+    <h1>Tags</h1>
+
+    
+
+                    </section>
+                </aside>
+        </div>
+    </body>
+
+</html>

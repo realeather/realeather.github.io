@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta name="keywords" content="hexo, autumn">
+    <title>
+        
+    </title>
+    <!-- favicon -->
+    
+    <link rel="icon" href="/img/smile.ico">
+    
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- highlight -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/github-gist.min.css">
+    <script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
+    <script>
+        hljs.initHighlightingOnLoad()
+    </script>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/frontendsophie/hexo-infinite-scroll@1.0.0/dist/hexo-infinite-scroll.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/frontendsophie/hexo-infinite-scroll@1.0.0/dist/hexo-infinite-scroll.min.js"></script>
+    <script>
+        infiniteScroll()
+
+        // for mobile menu
+        $(function () {
+            $('.social-button').click(function () {
+                if ($('.social-links').hasClass('hide-links')) {
+                    $('.social-links').removeClass('hide-links')
+                } else {
+                    $('.social-links').addClass('hide-links')
+                }
+            })
+        })
+    </script>
+</head>
+
+    <body style="background: url(https://cdn.jsdelivr.net/gh/frontendsophie/hexo-theme-autumn@1.0.0/source/img/button-bg.png) #f3f3f3">
+        <div class="container">
+            <header class="header">
+    <h1 class="title">
+        <a href="/" class="logo">
+            
+        </a>
+    </h1>
+    <h2 class="desc">
+        
+    </h2>
+
+    <nav class="links">
+        <button class="social-button">
+            menu
+        </button>
+        <ul class="social-links hide-links">
+            
+                <li>
+                    <a href="https://github.com/realeather">
+                        Github
+                    </a>
+                </li>
+                
+        </ul>
+    </nav>
+</header>
+                <main class="main">
+                    <article class="post">
+    
+            <h2 class="post-title">
+                安装mysql
+            </h2>
+            <ul class="post-date">
+                <li>
+                    2018-03-21
+                </li>
+                <li>
+                    
+                </li>
+            </ul>
+            <div class="post-content">
+                <ul>
+<li><a href="#1">windows10安装mysql</a></li>
+<li><a href="#2">centos7安装mysql</a></li>
+</ul>
+<p></p><h2 style="display:inline" id="1">windows10安装mysql</h2><br>管理员权限运行cmd<br><img src="/image/mysql-安装/service-denied.png" alt="service-denied"><br>运行services.msc 查看本地服务<br><img src="/image/mysql-安装/services-msc.png" alt="services-msc"><br>mysqld -remove 卸载mysql<br><img src="/image/mysql-安装/mysql-remove-1546561402743.png" alt="mysqld-remove"><br><img src="/image/mysql-安装/mysql-remove-1.png" alt="mysql-remove-1"><br><code>mysqld -install</code> 安装mysql<br>添加path环境变量<code>C:/tools/phpStudy2016/MySQL/bin;</code><br><code>net start mysql</code> 启动mysql服务<br><code>net stop mysql</code> 停止mysql服务<br><img src="/image/mysql-安装/net-s-mysql.png" alt="net-s-mysql"><br>[启动mysql服务报错] 无法启动MYSQL服务”1067 进程意外终止<br>查看windows日志,Failed to normalize the argument for –secure-file-priv<br>notapad++打开C:/tools/phpStudy2016/MySQL/my.ini 最后加上secure_file_priv=’’<br><img src="/image/mysql-安装/secure-file-priv.png" alt="secure-file-priv"><br>secure-file-priv参数用来限制数据导入和导出操作,例如执行LOAD DATA,SELECT…INTO OUTFILE语句和LOAD_FILE()函数,这些操作需要用户具有FILE权限<br>secure_file_priv的值<br>没值     不限制导入 | 导出<br>null      不允许导入 | 导出<br>路径  只能在路径下导入|导出<p></p>
+<p>show variables like ‘%secure_file_priv%’; 查看secure_file_priv的值,这里为空表示不限制导入|导出<br><img src="/image/mysql-安装/show-variables-like.png" alt="show-variables-like">use runoob;<br>select * from runoob_tb1 into outfile ‘222.txt’;<br>导出,注意默认路径是当前选择的数据库目录<br><img src="/image/mysql-安装/outfile.png" alt="outfile"></p>
+<p></p><h2 style="display:inline" id="2">centos7安装mysql</h2><br>检查本地是否安装mysql服务<br><code>rpm -qa | grep &quot;mysql&quot;</code><br><img src="/image/mysql-安装/rpm-qa-grep-mysql.png" alt="rpm-qa-grep-mysql"><br>查看内核版本<br><code>uname -a</code><br><img src="/image/mysql-安装/uname-a.png" alt="uname-a"><br>用wget下载rpm包提示找不到wget命令,先安装wget<br><code>yum install wget -y</code><br><img src="/image/mysql-安装/wget.png" alt="wget"><br>下载对应的mysql5.7 rpm包<br><code>wget http://dev.mysql.com/get/mysql57-community-release-el7-8.noarch.rpm</code><br><img src="/image/mysql-安装/wget-mysql.png" alt="wget-mysql"><br>rpm安装mysql5.7<br><code>rpm -ivh mysql57-community-release-el7-8.noarch.rpm</code><br><img src="/image/mysql-安装/rpm-mysql.png" alt="rpm-mysql"><br>接着yum安装mysql-server,提示applydeltarpm未安装yum安装失败<br><img src="/image/mysql-安装/deltarpm-disabled.png" alt="deltarpm-disabled"><br>这个问题只需安装deltarpm包(增量rpm套件)即可解决,可以先使用一下命令寻找哪个包提供applydeltarpm<br><code>yum provides &#39;*/applydeltarpm&#39;</code><br><img src="/image/mysql-安装/yum-provides-applydeltarpm.png" alt="yum-provides-applydeltarpm"><br>yum安装deltarpm包(增量rpm套件)<br><code>yum install deltarpm -y</code><br><img src="/image/mysql-安装/yum-install-deltarpm.png" alt="yum-install-deltarpm"><br>再次yum安装mysql-server,成功! 如果linux装不上尝试安装mariadb(就是mysql-server)<br><code>yum install mysql-server -y</code><br><img src="/image/mysql-安装/yum-install-mysql-server.png" alt="yum-install-mysql-server"><br>查看所有mysql rpm包<br><code>rpm -qa | grep &quot;mysql&quot;</code><br><img src="/image/mysql-安装/rpm-qa-grep-mysql1.png" alt="rpm-qa-grep-mysql1"><br>安装完重启网卡,注意reboot不要随便用(实际业务中导致服务中断)<br>CentOS <code>service network restart</code><br>Ubuntu    <code>/etc/init.d/networking restat</code><br><img src="/image/mysql-安装/service-network-restart.png" alt="service-network-restart"><br>启动mysql服务<br><code>service mysql start</code><br><img src="/image/mysql-安装/service-mysql-start.png" alt="service-mysql-start"><br>查看mysql初始密码<br><code>grep &quot;password&quot; /var/log/mysqld.log</code><br>密码是b)VMTQhIH0KJ<br><img src="/image/mysql-安装/grep-password.png" alt="grep-password"><br>修改root的密码<br>(1)修改配置文件：<code>vi /etc/my.cnf</code>   添加：<code>skip-grant-tables</code><br>顾名思义,就是在启动mysql时不启动grant-tables授权表<br>在不知mysql的root密码的情况下,使用<code>skip-grant-tables</code>关闭mysql服务器的认证,从而可以重置root的密码。<br><img src="/image/mysql-安装/skip-grant-tables.png" alt="skip-grant-tables"><br>重启mysql服务<br><code>service mysqld restart</code><br><img src="/image/mysql-安装/service-mysqld-restart.png" alt="service-mysqld-restart"><br>(2)空密码登录mysql<br><code>mysql –uroot</code><br><img src="/image/mysql-安装/mysql–uroot.png" alt="mysql–uroot"><br>(3)改密码：适用于低版本(5.X)<br><code>use mysql</code><br><code>update mysql.user set authentication_string=password(‘root&#39;),plugin=&#39;mysql_native_password&#39; where user=&#39;root&#39; and host=&#39;localhost&#39;;</code><br>也可以分2次修改<br>step1 更新plugin字段为mysql默认值：<br><code>mysql&gt; update user set plugin=&#39;mysql_native_password&#39;;</code><br>查询plugin字段值为mysql_native_password,更新之前为空<br><code>mysql&gt; select plugin from user where user = &#39;root&#39;;</code><br>step2 修改密码<br><code>update user set authentication_string=password(&#39;root&#39;) where user=&#39;root&#39; and host=&#39;localhost&#39;;</code><br><img src="/image/mysql-安装/mysql-password.png" alt="mysql-password"><br>(4)更新数据库后退出<br><code>flush privileges;</code><br><code>exit;</code><br><img src="/image/mysql-安装/flush-privileges.png" alt="flush-privileges"><br>(5)再次修改配置文件:<code>vi /etc/my.cnf</code>  注释掉<code>skip-grant-tables</code><br><img src="/image/mysql-安装/skip-grant-tables1.png" alt="skip-grant-tables1"><br>重启mysql服务<br><code>service mysqld restart</code><br>登录mysql<br><code>mysql -uroot -proot</code><br><img src="/image/mysql-安装/login-mysql.png" alt="login-mysql"><p></p>
+
+            </div>
+</article>
+
+                </main>
+                <aside class="aside">
+                    <section class="aside-section">
+                        
+    <h1>Categories</h1>
+
+    
+
+                    </section>
+                    <section class="aside-section">
+                        
+    <h1>Archives</h1>
+
+    <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018</a></li></ul>
+
+
+                    </section>
+                    <section class="aside-section tag">
+                        
+    <h1>Tags</h1>
+
+    
+
+                    </section>
+                </aside>
+        </div>
+    </body>
+
+</html>

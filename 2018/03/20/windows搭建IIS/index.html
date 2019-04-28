@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta name="keywords" content="hexo, autumn">
+    <title>
+        
+    </title>
+    <!-- favicon -->
+    
+    <link rel="icon" href="/img/smile.ico">
+    
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- highlight -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.12.0/styles/github-gist.min.css">
+    <script src="//cdn.bootcss.com/highlight.js/9.2.0/highlight.min.js"></script>
+    <script>
+        hljs.initHighlightingOnLoad()
+    </script>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/frontendsophie/hexo-infinite-scroll@1.0.0/dist/hexo-infinite-scroll.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/frontendsophie/hexo-infinite-scroll@1.0.0/dist/hexo-infinite-scroll.min.js"></script>
+    <script>
+        infiniteScroll()
+
+        // for mobile menu
+        $(function () {
+            $('.social-button').click(function () {
+                if ($('.social-links').hasClass('hide-links')) {
+                    $('.social-links').removeClass('hide-links')
+                } else {
+                    $('.social-links').addClass('hide-links')
+                }
+            })
+        })
+    </script>
+</head>
+
+    <body style="background: url(https://cdn.jsdelivr.net/gh/frontendsophie/hexo-theme-autumn@1.0.0/source/img/button-bg.png) #f3f3f3">
+        <div class="container">
+            <header class="header">
+    <h1 class="title">
+        <a href="/" class="logo">
+            
+        </a>
+    </h1>
+    <h2 class="desc">
+        
+    </h2>
+
+    <nav class="links">
+        <button class="social-button">
+            menu
+        </button>
+        <ul class="social-links hide-links">
+            
+                <li>
+                    <a href="https://github.com/realeather">
+                        Github
+                    </a>
+                </li>
+                
+        </ul>
+    </nav>
+</header>
+                <main class="main">
+                    <article class="post">
+    
+            <h2 class="post-title">
+                windows搭建IIS
+            </h2>
+            <ul class="post-date">
+                <li>
+                    2018-03-20
+                </li>
+                <li>
+                    
+                </li>
+            </ul>
+            <div class="post-content">
+                <p>本次使用Windows Server 2008 R2安装IIS7,并在上面运行asp网站</p>
+<ul>
+<li><a href="#1">安装IIS</a></li>
+<li><a href="#2">配置IIS</a></li>
+<li><a href="#3">安装SQLServer,搭建asp网站</a></li>
+</ul>
+<p></p><h2 style="display:inline;" id="1">安装IIS</h2><br>首先安装<code>.net framework 4.7.21</code><br><img src="/image/windows搭建IIS/netframework4.7.2.jpg" alt="netframework4.7.2"><br>点击屏幕左下角开始菜单右边的服务器图标打开服务器管理器<br><img src="/image/windows搭建IIS/服务器管理器.jpg" alt="服务器管理器"><br>角色==&gt;添加角色==&gt;Web 服务器(IIS)<br><img src="/image/windows搭建IIS/添加角色-IIS.jpg" alt="添加角色-IIS"><br>角色服务:勾选需要安装的功能,安装<br><img src="/image/windows搭建IIS/添加角色-角色服务.jpg" alt="添加角色-角色服务"><br><img src="/image/windows搭建IIS/添加角色-角色服务1.jpg" alt="添加角色-角色服务1"><br>安装完打开控制面板==&gt;打开或关闭windows功能-勾选<code>internet信息服务</code><br><img src="/image/windows搭建IIS/打开或关闭windows功能-internet信息服务.jpg" alt="打开或关闭windows功能-internet信息服务"><p></p>
+<p></p><h2 style="display:inline;" id="2">配置IIS</h2><br>浏览器访问虚拟机ip显示IIS7页面,可以删除应用程序池下的文件和网站目录下的<code>Default Web Site</code><br><img src="/image/windows搭建IIS/internet信息服务.jpg" alt="internet信息服务"><br><img src="/image/windows搭建IIS/internet信息服务1.jpg" alt="internet信息服务1"><br>查看端口占用<br><code>netstat-ano</code><br><img src="/image/windows搭建IIS/netstat-ano.jpg" alt="netstat-ano"><br>查看补丁<br><code>systeminfo</code><br><img src="/image/windows搭建IIS/systeminfo.jpg" alt="systeminfo"><br>把<code>aspcms_A5/ASPCMS273_UTF8</code>目录里文件复制到<code>C:/www</code>目录<br><img src="/image/windows搭建IIS/www.jpg" alt="www"><br>Internet信息服务==&gt;网站==&gt;添加网站==&gt;绑定ip地址<br><img src="/image/windows搭建IIS/添加网站.jpg" alt="添加网站"><br>访问网站,提示403禁止访问<br><img src="/image/windows搭建IIS/403禁止访问.jpg" alt="403禁止访问"><br>Internet信息服务==&gt;网站==&gt;aspcms==&gt;组或用户名==&gt;Users权限选完全控制<br><img src="/image/windows搭建IIS/users权限-完全控制.jpg" alt="users权限-完全控制"><br>Internet信息服务==&gt;网站==&gt;aspcms==&gt;双击ASP==&gt;启用父路径<br><img src="/image/windows搭建IIS/asp启用父路径.jpg" alt="asp启用父路径"><br>Internet信息服务==&gt;网站==&gt;aspcms==&gt;双击默认文档==&gt;添加默认文档<code>index.asp</code><br><img src="/image/windows搭建IIS/添加默认文档.jpg" alt="添加默认文档"><br>Internet信息服务==&gt;应用程序池==&gt;编辑应用程序池 选择.NET Framework版本<br><img src="/image/windows搭建IIS/编辑应用程序池_基本设置.jpg" alt="编辑应用程序池_基本设置"><br>编辑应用程序池==&gt;高级设置==&gt;启用32位应用程序<code>true</code><br><img src="/image/windows搭建IIS/编辑应用程序池_高级设置.jpg" alt="编辑应用程序池_高级设置"><p></p>
+<p></p><h2 style="display:inline;" id="3">安装SQLServer,搭建asp网站</h2><br>安装SQLServer2008R2<br><img src="/image/windows搭建IIS/安装sqlserver.jpg" alt="安装sqlserver"><br><img src="/image/windows搭建IIS/安装sqlserver-全新安装.jpg" alt="安装sqlserver-全新安装"><br><img src="/image/windows搭建IIS/安装sqlserver-sqlserver功能安装.jpg" alt="安装sqlserver-sqlserver功能安装"><br><img src="/image/windows搭建IIS/安装sqlserver-功能选择.jpg" alt="安装sqlserver-功能选择"><br><img src="/image/windows搭建IIS/安装sqlserver-服务器配置.jpg" alt="安装sqlserver-服务器配置"><br><img src="/image/windows搭建IIS/安装sqlserver-数据库引擎配置.jpg" alt="安装sqlserver-数据库引擎配置"><br><img src="/image/windows搭建IIS/安装sqlserver-数据库引擎配置1.jpg" alt="安装sqlserver-数据库引擎配置1"><br>连接到服务器登录SQLServer<br><img src="/image/windows搭建IIS/sqlserver-连接到服务器.jpg" alt="sqlserver-连接到服务器"><br>新建数据库<br><img src="/image/windows搭建IIS/sqlserver-新建数据库.jpg" alt="sqlserver-新建数据库"><br>新建表 编辑表<br><img src="/image/windows搭建IIS/sqlserver-新建表.jpg" alt="sqlserver-新建表"><br><img src="/image/windows搭建IIS/sqlserver-编辑表.jpg" alt="sqlserver-编辑表"><br>打开网站配置文件config/AspCms_Config 查看access数据库文件路径<code>Const accessFilePath=&quot;data/#5Dp8Gh.asp</code>  查看<code>www/data</code>目录<br><img src="/image/windows搭建IIS/aspcms-config-access数据库文件路径.jpg" alt="aspcms-config-access数据库文件路径"><br><img src="/image/windows搭建IIS/www-data.jpg" alt="www-data"><br>SQLServe导入access数据库文件,网站配置文件AspCms_Config中的修改<code>Const dbType=1</code>(0为access,1为sqlserver)<br><img src="/image/windows搭建IIS/sqlserver导入access.jpg" alt="sqlserver导入access"><br><img src="/image/windows搭建IIS/sqlserver导入access1.jpg" alt="sqlserver导入access1"><br><img src="/image/windows搭建IIS/修改aspcms-config.jpg" alt="修改aspcms-config"><p></p>
+
+            </div>
+</article>
+
+                </main>
+                <aside class="aside">
+                    <section class="aside-section">
+                        
+    <h1>Categories</h1>
+
+    
+
+                    </section>
+                    <section class="aside-section">
+                        
+    <h1>Archives</h1>
+
+    <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018</a></li></ul>
+
+
+                    </section>
+                    <section class="aside-section tag">
+                        
+    <h1>Tags</h1>
+
+    
+
+                    </section>
+                </aside>
+        </div>
+    </body>
+
+</html>
